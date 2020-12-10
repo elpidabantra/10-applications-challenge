@@ -1,0 +1,24 @@
+import json
+import difflib 
+from difflib import get_close_matches
+
+"Note: all the algorithms' names are stored with lower case names"
+data = json.load(open("data.json"))
+
+def translate(word):
+    word = word.lower()
+    if word in data.keys():
+        print("The definition of the " + word + " algorithm is: ")
+        return data[word]
+    elif get_close_matches(word, data.keys()):
+        yn = input("Did you mean %s instead? Type the name of the algorithm that you are interested in: " % [get_close_matches(word, data.keys())[i] for i in range(0,len(get_close_matches(word, data.keys())))])
+        if yn in data.keys():
+            print("The definition of the " + yn + " algorithm is: ")
+            return data[yn]
+        else:
+            return "Please double check it."
+    else:
+        return "This ML algorithm does not exist. Please double check it."
+
+word = input("Type the name of the machine learning algorithm that you are interested in: ")
+print(translate(word))
